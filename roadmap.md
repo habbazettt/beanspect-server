@@ -60,13 +60,13 @@ Expose trained BeanSpect model as a stateless HTTP inference API.
 
 ---
 
-### 1.1 Service Setup
+### 1.1 Service Setup ✅
 
-* [ ] Initialize FastAPI project
-* [ ] Setup virtual environment & dependencies
-* [ ] Define project structure (`app/`, `models/`, `schemas/`)
-* [ ] Configure CORS for frontend access
-* [ ] Health check endpoint (`GET /health`)
+* [x] Initialize FastAPI project
+* [x] Setup virtual environment & dependencies
+* [x] Define project structure (`app/`, `models/`, `schemas/`)
+* [x] Configure CORS for frontend access
+* [x] Health check endpoint (`GET /health`)
 
 ---
 

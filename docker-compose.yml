@@ -1,0 +1,28 @@
+services:
+  # AI Inference Service (FastAPI + TensorFlow)
+  inference:
+    build:
+      context: ./inference-service
+      dockerfile: Dockerfile
+      network: host
+    container_name: beanspect-inference
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./beanspect_savedmodel:/app/models/beanspect_savedmodel:ro
+      - ./beanspect_savedmodel/class_names.json:/app/models/class_names.json:ro
+    env_file:
+      - ./inference-service/.env
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - beanspect-network
+
+networks:
+  beanspect-network:
+    driver: bridge

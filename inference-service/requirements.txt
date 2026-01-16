@@ -1,0 +1,16 @@
+# FastAPI and Server
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+
+# TensorFlow for ML Inference
+tensorflow==2.15.0
+
+# Image Processing
+pillow==10.2.0
+
+# Configuration
+pydantic-settings==2.2.1
+
+# Utilities
+numpy==1.26.4

@@ -1,0 +1,38 @@
+# Dependencies
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Model artifacts (optional - uncomment if you want to ignore large model files)
+# beanspect_savedmodel/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
