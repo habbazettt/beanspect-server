@@ -1,4 +1,25 @@
 services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: beanspect-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: beanspect
+      POSTGRES_PASSWORD: beanspect_secret
+      POSTGRES_DB: beanspect
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U beanspect" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - beanspect-network
+
   # AI Inference Service (FastAPI + TensorFlow)
   inference:
     build:
@@ -23,6 +44,35 @@ services:
     networks:
       - beanspect-network
 
+  # Application Backend (Go Fiber)
+  backend:
+    build:
+      context: ./backend-service
+      dockerfile: Dockerfile
+      network: host
+    container_name: beanspect-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend-service/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      inference:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - beanspect-network
+
 networks:
   beanspect-network:
     driver: bridge
+
+volumes:
+  postgres_data:
